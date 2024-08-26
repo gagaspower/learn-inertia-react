@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Lexend";
+    src: local("Lexend"),
+        url("fonts/lexend/static/Lexend-Regular.ttf") format("truetype");
+}
