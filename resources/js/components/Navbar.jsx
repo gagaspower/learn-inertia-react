@@ -1,3 +1,4 @@
+import { router, usePage } from "@inertiajs/react";
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { Flowbite } from "flowbite-react";
 
@@ -17,6 +18,13 @@ const customTheme = {
 };
 
 export function NavbarComponent() {
+    const { auth } = usePage().props;
+
+    const handleLogout = () => {
+        router.visit(route("auth.logout"), {
+            method: "post",
+        });
+    };
     return (
         <Flowbite theme={{ theme: customTheme }}>
             <Navbar fluid>
@@ -33,11 +41,19 @@ export function NavbarComponent() {
                         }
                     >
                         <Dropdown.Header>
-                            <span className="block text-sm">User Dummy</span>
+                            <span className="block text-sm">
+                                Hallo, {auth.user.name}
+                            </span>
                         </Dropdown.Header>
                         <Dropdown.Item>Ubah Password</Dropdown.Item>
                         <Dropdown.Divider />
-                        <Dropdown.Item>Keluar</Dropdown.Item>
+                        <Dropdown.Item
+                            as="button"
+                            type="button"
+                            onClick={handleLogout}
+                        >
+                            Keluar
+                        </Dropdown.Item>
                     </Dropdown>
                 </div>
             </Navbar>

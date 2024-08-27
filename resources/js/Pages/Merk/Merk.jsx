@@ -15,8 +15,8 @@ import {
 } from "@/components/Buttons";
 import Modals from "@/components/Modals";
 import { Input } from "@/components/FormInput";
-import { ErrorAlert, SuccessAlert } from "../components/Alert";
-import { InputSelect } from "../components/FormInput";
+import { ErrorAlert, SuccessAlert } from "../../components/Alert";
+import { InputSelect } from "../../components/FormInput";
 
 function Home({ merks, search: initialSearch }) {
     const [search, setSearch] = useState(initialSearch || "");
@@ -27,8 +27,9 @@ function Home({ merks, search: initialSearch }) {
         nama_merk: "",
         kategori_merk: "",
     });
-    const { flash } = usePage().props;
+    const { flash, auth } = usePage().props;
     const { url } = usePage();
+    const hasPermission = (permission) => auth.permissions.includes(permission);
     const columns = useMemo(
         () => [
             {
@@ -45,10 +46,18 @@ function Home({ merks, search: initialSearch }) {
                 formatter: (row) => {
                     return (
                         <div className="flex flex-col md:flex-row gap-2">
-                            <EditButton handleClick={() => handleEdit(row)} />
-                            <DeleteButton
-                                handleClick={() => handleOpenConfirm(row.id)}
-                            />
+                            {hasPermission("Edit Data Merk Kendaraan") ? (
+                                <EditButton
+                                    handleClick={() => handleEdit(row)}
+                                />
+                            ) : null}
+                            {hasPermission("Hapus Data Merk Kendaraan") ? (
+                                <DeleteButton
+                                    handleClick={() =>
+                                        handleOpenConfirm(row.id)
+                                    }
+                                />
+                            ) : null}
                         </div>
                     );
                 },
@@ -154,7 +163,9 @@ function Home({ merks, search: initialSearch }) {
                             />
                         </div>
                         <div className="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
-                            <AddButton handleClick={handleModal} />
+                            {hasPermission("Tambah Data Merk Kendaraan") ? (
+                                <AddButton handleClick={handleModal} />
+                            ) : null}
                         </div>
                     </div>
 

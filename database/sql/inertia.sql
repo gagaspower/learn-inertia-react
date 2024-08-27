@@ -11,7 +11,7 @@
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 26/08/2024 20:33:41
+ Date: 27/08/2024 14:43:32
 */
 
 SET NAMES utf8mb4;
@@ -45,6 +45,25 @@ CREATE TABLE `cache_locks`  (
 
 -- ----------------------------
 -- Records of cache_locks
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for customers
+-- ----------------------------
+DROP TABLE IF EXISTS `customers`;
+CREATE TABLE `customers`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `kode_customer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama_customer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat_customer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `telp_customer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of customers
 -- ----------------------------
 
 -- ----------------------------
@@ -110,6 +129,29 @@ CREATE TABLE `jobs`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for kendaraan_customers
+-- ----------------------------
+DROP TABLE IF EXISTS `kendaraan_customers`;
+CREATE TABLE `kendaraan_customers`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `customer_id` bigint UNSIGNED NOT NULL,
+  `merk_kendaraan_id` bigint UNSIGNED NOT NULL,
+  `nopol_kendaraan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jenis_kendaraan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `kendaraan_customers_customer_id_index`(`customer_id`) USING BTREE,
+  INDEX `kendaraan_customers_merk_kendaraan_id_index`(`merk_kendaraan_id`) USING BTREE,
+  CONSTRAINT `kendaraan_customers_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `kendaraan_customers_merk_kendaraan_id_foreign` FOREIGN KEY (`merk_kendaraan_id`) REFERENCES `merk_kendaraans` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of kendaraan_customers
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for merk_kendaraans
 -- ----------------------------
 DROP TABLE IF EXISTS `merk_kendaraans`;
@@ -120,7 +162,7 @@ CREATE TABLE `merk_kendaraans`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of merk_kendaraans
@@ -138,7 +180,7 @@ CREATE TABLE `migrations`  (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of migrations
@@ -150,6 +192,8 @@ INSERT INTO `migrations` VALUES (4, '2024_08_23_144436_create_merk_kendaraans_ta
 INSERT INTO `migrations` VALUES (5, '2024_08_26_064540_create_permission_tables', 3);
 INSERT INTO `migrations` VALUES (6, '2024_08_26_064732_create_permission_parents_table', 4);
 INSERT INTO `migrations` VALUES (7, '2024_08_26_064845_create_permission_has_parents_table', 4);
+INSERT INTO `migrations` VALUES (8, '2024_08_27_073514_create_customers_table', 5);
+INSERT INTO `migrations` VALUES (9, '2024_08_27_073835_create_kendaraan_customers_table', 6);
 
 -- ----------------------------
 -- Table structure for model_has_permissions
@@ -184,9 +228,7 @@ CREATE TABLE `model_has_roles`  (
 -- ----------------------------
 -- Records of model_has_roles
 -- ----------------------------
-INSERT INTO `model_has_roles` VALUES (1, 'App\\Models\\User', 1);
-INSERT INTO `model_has_roles` VALUES (2, 'App\\Models\\User', 2);
-INSERT INTO `model_has_roles` VALUES (1, 'App\\Models\\User', 3);
+INSERT INTO `model_has_roles` VALUES (1, 'App\\Models\\User', 4);
 
 -- ----------------------------
 -- Table structure for password_reset_tokens
@@ -219,11 +261,21 @@ CREATE TABLE `permission_has_parents`  (
   INDEX `permission_has_parents_permission_id_index`(`permission_id`) USING BTREE,
   CONSTRAINT `permission_has_parents_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `permission_has_parents_permission_parent_id_foreign` FOREIGN KEY (`permission_parent_id`) REFERENCES `permission_parents` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of permission_has_parents
 -- ----------------------------
+INSERT INTO `permission_has_parents` VALUES (1, 11, 9, NULL, NULL);
+INSERT INTO `permission_has_parents` VALUES (2, 11, 10, NULL, NULL);
+INSERT INTO `permission_has_parents` VALUES (3, 11, 11, NULL, NULL);
+INSERT INTO `permission_has_parents` VALUES (4, 11, 12, NULL, NULL);
+INSERT INTO `permission_has_parents` VALUES (5, 12, 5, NULL, NULL);
+INSERT INTO `permission_has_parents` VALUES (6, 12, 6, NULL, NULL);
+INSERT INTO `permission_has_parents` VALUES (7, 12, 7, NULL, NULL);
+INSERT INTO `permission_has_parents` VALUES (8, 12, 8, NULL, NULL);
+INSERT INTO `permission_has_parents` VALUES (9, 14, 13, NULL, NULL);
+INSERT INTO `permission_has_parents` VALUES (10, 14, 14, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for permission_parents
@@ -235,14 +287,17 @@ CREATE TABLE `permission_parents`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of permission_parents
 -- ----------------------------
-INSERT INTO `permission_parents` VALUES (1, 'Owner', NULL, NULL);
-INSERT INTO `permission_parents` VALUES (2, 'Merk Kendaraan', NULL, NULL);
-INSERT INTO `permission_parents` VALUES (3, 'Customer', NULL, NULL);
+INSERT INTO `permission_parents` VALUES (11, 'Pengguna', NULL, NULL);
+INSERT INTO `permission_parents` VALUES (12, 'Merk Kendaraan', NULL, NULL);
+INSERT INTO `permission_parents` VALUES (13, 'Customer', NULL, NULL);
+INSERT INTO `permission_parents` VALUES (14, 'Hak Akses', NULL, NULL);
+INSERT INTO `permission_parents` VALUES (15, 'Data Kendaraan Customer', NULL, NULL);
+INSERT INTO `permission_parents` VALUES (16, 'Layanan', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for permissions
@@ -256,11 +311,21 @@ CREATE TABLE `permissions`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `permissions_name_guard_name_unique`(`name`, `guard_name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of permissions
 -- ----------------------------
+INSERT INTO `permissions` VALUES (5, 'Lihat Data Merk Kendaraan', 'web', NULL, NULL);
+INSERT INTO `permissions` VALUES (6, 'Tambah Data Merk Kendaraan', 'web', NULL, NULL);
+INSERT INTO `permissions` VALUES (7, 'Edit Data Merk Kendaraan', 'web', NULL, NULL);
+INSERT INTO `permissions` VALUES (8, 'Hapus Data Merk Kendaraan', 'web', NULL, NULL);
+INSERT INTO `permissions` VALUES (9, 'Lihat Data Pengelola', 'web', NULL, NULL);
+INSERT INTO `permissions` VALUES (10, 'Tambah Data Pengelola', 'web', NULL, NULL);
+INSERT INTO `permissions` VALUES (11, 'Edit Data Pengelola', 'web', NULL, NULL);
+INSERT INTO `permissions` VALUES (12, 'Hapus Data Pengelola', 'web', NULL, NULL);
+INSERT INTO `permissions` VALUES (13, 'Lihat Data Hak Akses', 'web', NULL, NULL);
+INSERT INTO `permissions` VALUES (14, 'Atur Data Hak Akses', 'web', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for role_has_permissions
@@ -278,6 +343,17 @@ CREATE TABLE `role_has_permissions`  (
 -- ----------------------------
 -- Records of role_has_permissions
 -- ----------------------------
+INSERT INTO `role_has_permissions` VALUES (5, 1);
+INSERT INTO `role_has_permissions` VALUES (6, 1);
+INSERT INTO `role_has_permissions` VALUES (7, 1);
+INSERT INTO `role_has_permissions` VALUES (8, 1);
+INSERT INTO `role_has_permissions` VALUES (9, 1);
+INSERT INTO `role_has_permissions` VALUES (10, 1);
+INSERT INTO `role_has_permissions` VALUES (11, 1);
+INSERT INTO `role_has_permissions` VALUES (12, 1);
+INSERT INTO `role_has_permissions` VALUES (13, 1);
+INSERT INTO `role_has_permissions` VALUES (14, 1);
+INSERT INTO `role_has_permissions` VALUES (5, 2);
 
 -- ----------------------------
 -- Table structure for roles
@@ -291,7 +367,7 @@ CREATE TABLE `roles`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `roles_name_guard_name_unique`(`name`, `guard_name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of roles
@@ -318,7 +394,7 @@ CREATE TABLE `sessions`  (
 -- ----------------------------
 -- Records of sessions
 -- ----------------------------
-INSERT INTO `sessions` VALUES ('PLlyfjjyBZ3O8LPO4HFNzPiWrRZE3KdGtHvHlx4L', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoickZtdjg4TmFGSnhneWRlUUVvbjdyVE52cmQzN0hMZDlIVmwxUnJhVyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC91c2VyIjt9fQ==', 1724679117);
+INSERT INTO `sessions` VALUES ('iEHERtbyGvG6mPqoOZCPXWGu3Ww4xg5HdQrfZBlp', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZld5a2VqUjRDd1d1ZXQyd0VPNmhOb2NncDhGc1lRa3RmcmZ3QWU2bSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czoyNjoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3JvbGUiO319', 1724744591);
 
 -- ----------------------------
 -- Table structure for users
@@ -335,13 +411,11 @@ CREATE TABLE `users`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `users_email_unique`(`email`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'test', 'test@email.com', NULL, 'adfad', NULL, NULL, NULL);
-INSERT INTO `users` VALUES (2, 'asdfasdf', 'asfasdfad@email.com', NULL, 'dfasdfasd', NULL, NULL, NULL);
-INSERT INTO `users` VALUES (3, 'test input user', 'email@domain.com', NULL, '$2y$12$cwzQ9jnk./.tVgNP9RLfAug5Uyjn7UI.fhmHZlynrm1oNzNc4MGsy', NULL, '2024-08-26 13:29:41', '2024-08-26 13:29:41');
+INSERT INTO `users` VALUES (4, 'gagas', 'admin@email.com', NULL, '$2y$12$/66g2RbnEUtq5E35wwdMaO7jlKoziY.XxVZ9xUBIVGHFJKkgpdXby', NULL, '2024-08-27 06:24:17', '2024-08-27 06:24:17');
 
 SET FOREIGN_KEY_CHECKS = 1;

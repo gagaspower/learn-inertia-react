@@ -21,7 +21,7 @@ class MerkKendaraanController extends Controller
         if ($searchTerm)
             $merks->appends(['query' => $searchTerm]);
 
-        return Inertia::render('Home', [
+        return Inertia::render('Merk/Merk', [
             'merks'  => MerkResource::collection($merks),
             'search' => $searchTerm
         ]);

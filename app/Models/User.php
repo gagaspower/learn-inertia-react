@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -52,13 +53,23 @@ class User extends Authenticatable
     public function toSearchableArray(): array
     {
         return [
-            'name'  => $this->name,
-            'email' => $this->email
+            'name' => $this->name
         ];
     }
 
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
+    }
+
+    public function scopeFilterByRole(Builder $query, $role)
+    {
+        if ($role && $role !== 'all') {
+            $query->whereHas('roles', function ($q) use ($role) {
+                $q->where('name', $role);
+            });
+        }
+
+        return $query;
     }
 }

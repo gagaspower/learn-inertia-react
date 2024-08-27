@@ -8,6 +8,7 @@ import {
     CancelButton,
     SearchButton,
     SubmitButton,
+    ConfirmButton,
 } from "@/components/Buttons";
 import Tables from "@/components/Tables";
 import Pagination from "@/components/Pagination";
@@ -22,23 +23,23 @@ export default function Pengguna() {
         roles: roleData,
         searchRole,
         flash,
+        auth,
     } = usePage().props;
-    const { data, setData, processing, post, errors, reset } = useForm({
-        name: "",
-        email: "",
-        password: "",
-        roles: "",
-    });
+    const { data, setData, processing, post, put, errors, reset, clearErrors } =
+        useForm({
+            name: "",
+            email: "",
+            password: "",
+            roles: "",
+        });
+    const hasPermission = (permission) => auth.permissions.includes(permission);
 
     const [params, setParams] = useState({
         query: initialSearch || "",
         role: searchRole || "all",
     });
-    const [showModal, setShowModal] = useState({
-        add: false,
-        edit: false,
-        confirm: false,
-    });
+    const [isShowModal, setIsShowModal] = useState(false);
+    const [isShowConfirm, setIsShowConfirm] = useState(false);
     const [currentId, setCurrentId] = useState(null);
 
     const columns = useMemo(
@@ -61,8 +62,18 @@ export default function Pengguna() {
                 formatter: (row) => {
                     return (
                         <div className="flex flex-row gap-3">
-                            <EditButton />
-                            <DeleteButton />
+                            {hasPermission("Edit Data Pengelola") ? (
+                                <EditButton
+                                    handleClick={() => handleEdit(row)}
+                                />
+                            ) : null}
+                            {hasPermission("Hapus Data Pengelola") ? (
+                                <DeleteButton
+                                    handleClick={() =>
+                                        handleOpenConfirm(row.id)
+                                    }
+                                />
+                            ) : null}
                         </div>
                     );
                 },
@@ -81,14 +92,14 @@ export default function Pengguna() {
 
     const submitSearch = (e) => {
         e.preventDefault();
-        let queryParams = { role: params.role };
-        if (params.query !== "") {
-            queryParams = {
-                query: params.search,
-                role: params.role,
-            };
+        const filteredParams = {};
+
+        if (params.query) {
+            filteredParams.query = params.query;
         }
-        getData(queryParams);
+        filteredParams.role = params.role;
+
+        getData(filteredParams);
     };
 
     const handleReset = (e) => {
@@ -99,21 +110,60 @@ export default function Pengguna() {
         });
     };
 
+    const handleAddModal = (e) => {
+        setIsShowModal(!isShowModal);
+        setCurrentId(null);
+        setData({ ...data, name: "", email: "", password: "", roles: "" });
+    };
+
+    const handleEdit = (row) => {
+        setCurrentId(row.id);
+        setData({
+            name: row.name,
+            email: row.email,
+            roles: row.roles,
+        });
+        setIsShowModal(!isShowModal);
+    };
+
+    const handleOpenConfirm = (id) => {
+        setCurrentId(id);
+        setIsShowConfirm(true);
+    };
+
+    const handleCloseConfirm = () => {
+        setCurrentId(null);
+        setIsShowConfirm(false);
+    };
+
     const storeData = (e) => {
         e.preventDefault();
+
         post(route("user.store"), {
             onSuccess: () => {
                 reset();
-                setShowModal({ ...showModal, add: false });
+                setIsShowModal(!isShowModal);
             },
         });
     };
 
-    const handleAddModal = (e) => {
-        setShowModal({ ...showModal, add: true });
-        setData({ ...data, name: "", email: "", password: "", roles: "" });
+    const updateData = (e) => {
+        e.preventDefault();
+        put(route("user.update", { id: currentId }), {
+            onSuccess: () => {
+                setIsShowModal(!isShowModal);
+            },
+        });
     };
 
+    const handleDelete = () => {
+        router.delete(route("user.delete", { id: currentId }), {
+            onSuccess: () => {
+                setCurrentId(null);
+                setIsShowConfirm(false);
+            },
+        });
+    };
     return (
         <>
             <Card>
@@ -173,7 +223,9 @@ export default function Pengguna() {
                         </form>
 
                         <div className="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
-                            <AddButton handleClick={handleAddModal} />
+                            {hasPermission("Lihat Data Pengelola") ? (
+                                <AddButton handleClick={handleAddModal} />
+                            ) : null}
                         </div>
                     </div>
 
@@ -189,11 +241,11 @@ export default function Pengguna() {
             </Card>
 
             <Modals
-                isShowing={showModal.add}
+                isShowing={isShowModal}
                 title={currentId ? "Edit Data" : "Tambah Data"}
             >
                 <div className="flex flex-col gap-3 overflow-x-auto">
-                    <form onSubmit={storeData}>
+                    <form onSubmit={currentId ? updateData : storeData}>
                         <Input
                             name="name"
                             formLabel="Nama"
@@ -250,15 +302,24 @@ export default function Pengguna() {
                         <div className="flex flex-row  gap-3">
                             <SubmitButton isDisable={processing} />
                             <CancelButton
-                                handleCancel={() =>
-                                    setShowModal({
-                                        ...showModal,
-                                        add: !showModal.add,
-                                    })
-                                }
+                                handleCancel={() => {
+                                    clearErrors();
+                                    setIsShowModal(!isShowModal);
+                                }}
                             />
                         </div>
                     </form>
+                </div>
+            </Modals>
+
+            <Modals isShowing={isShowConfirm} title="Hapus data?">
+                <div className="flex flex-col gap-3 overflow-x-auto">
+                    <span>Apakah anda yakin akan menghapus data ini ?</span>
+
+                    <div className="flex flex-row  gap-3">
+                        <ConfirmButton handleClick={handleDelete} />
+                        <CancelButton handleCancel={handleCloseConfirm} />
+                    </div>
                 </div>
             </Modals>
         </>

@@ -1,5 +1,4 @@
 export default function Tables({ columns, data }) {
-    console.log("data : ", data);
     return (
         <>
             <div className="w-full overflow-x-auto">
