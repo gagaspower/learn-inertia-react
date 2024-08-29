@@ -18,12 +18,10 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, Role $roles)
     {
         $searchTerm = $request->input('query');
         $searchRole = $request->input('role');
-
-        $roles = Role::latest()->get()->pluck('name');
 
         $data = User::search($searchTerm)
                     ->query(function (Builder $query) use ($searchRole) {
@@ -43,20 +41,22 @@ class UserController extends Controller
             ]);
         }
 
-        return Inertia::render('Pengguna/Pengguna', [
+        return Inertia::render('Pengguna/Index', [
             'users'      => UserResource::collection($data),
-            'roles'      => $roles,
             'search'     => $searchTerm,
-            'searchRole' => $searchRole
+            'searchRole' => $searchRole,
+            'roles'      => $roles->latest()->pluck('name'),
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Role $roles)
     {
-        //
+        return Inertia::render('Pengguna/Create', [
+            'roles' => $roles->latest()->pluck('name'),
+        ]);
     }
 
     /**
@@ -85,9 +85,15 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Role $roles, string $id)
     {
-        //
+        $currentUser = User::find($id);
+
+        return Inertia::render('Pengguna/Edit', [
+            'roles'        => $roles->latest()->pluck('name'),
+            'currentData'  => $currentUser,
+            'selectedRole' => $currentUser->roles->first()->name
+        ]);
     }
 
     /**

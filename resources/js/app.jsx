@@ -10,12 +10,15 @@ createInertiaApp({
         let page = pages[`./Pages/${name}.jsx`];
         // page.default.layout =
         //     page.default.layout || ((page) => <Layout children={page} />);
-        page.default.layout = name.startsWith("Auth/")
+        page.default.layout = name.startsWith("Public/")
             ? undefined
             : (page) => <Layout children={page} />;
         return page;
     },
     setup({ el, App, props }) {
         createRoot(el).render(<App {...props} />);
+    },
+    progress: {
+        color: "#00CED1",
     },
 });

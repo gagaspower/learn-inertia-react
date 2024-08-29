@@ -8,10 +8,10 @@ export default function Tables({ columns, data }) {
                 >
                     <thead>
                         <tr>
-                            {columns.map((col, index) => {
+                            {columns.map((col) => {
                                 return (
                                     <th
-                                        key={index}
+                                        key={col.key}
                                         scope="col"
                                         className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100"
                                     >

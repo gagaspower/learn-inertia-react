@@ -57,7 +57,7 @@ export default function Sidebar() {
                     href="/dashboard"
                 >
                     <img src={Logo} alt="logo" className="w-10 h-10" />
-                    Salon Mobil
+                    WinCar
                 </Link>
                 <nav
                     aria-label="side navigation"
@@ -253,34 +253,150 @@ export default function Sidebar() {
                                     </Link>
                                 </li>
                             ) : null}
-                            <li className="px-3">
-                                <Link
-                                    href="#"
-                                    className="flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-500 focus:bg-emerald-50 aria-[current=page]:bg-emerald-50 aria-[current=page]:text-emerald-500 "
-                                >
-                                    <div className="flex items-center self-center ">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth="1.5"
-                                            stroke="currentColor"
-                                            className="h-6 w-6"
-                                            aria-label="Dashboard icon"
-                                            role="graphics-symbol"
+                            {hasPermission("Lihat Data Customer") ? (
+                                <li className="px-3">
+                                    <Link
+                                        href="/customer"
+                                        onClick={
+                                            isSideNavOpen ? handleAutoClose : ""
+                                        }
+                                        className={`flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-500 focus:bg-emerald-50 ${
+                                            url.includes("customer")
+                                                ? "bg-emerald-50 text-emerald-500 "
+                                                : ""
+                                        }`}
+                                        aria-current="merk"
+                                    >
+                                        <div className="flex items-center self-center ">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                strokeWidth="1.5"
+                                                stroke="currentColor"
+                                                className={`h-6 w-6 ${
+                                                    url.includes("customer")
+                                                        ? "text-emerald-500"
+                                                        : ""
+                                                }`}
+                                                aria-label="Dashboard icon"
+                                                role="graphics-symbol"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                                                />
+                                            </svg>
+                                        </div>
+                                        <div
+                                            className={`flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm ${
+                                                url.includes("customer")
+                                                    ? "text-emerald-500"
+                                                    : ""
+                                            }`}
                                         >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div className="flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm">
-                                        Customer
-                                    </div>
-                                </Link>
-                            </li>
+                                            Customer
+                                        </div>
+                                    </Link>
+                                </li>
+                            ) : null}
+                            {hasPermission("Lihat Data Layanan") ? (
+                                <li className="px-3">
+                                    <Link
+                                        href="/layanan"
+                                        onClick={
+                                            isSideNavOpen ? handleAutoClose : ""
+                                        }
+                                        className={`flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-500 focus:bg-emerald-50 ${
+                                            url.includes("layanan")
+                                                ? "bg-emerald-50 text-emerald-500 "
+                                                : ""
+                                        }`}
+                                        aria-current="layanan"
+                                    >
+                                        <div className="flex items-center self-center ">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                strokeWidth="1.5"
+                                                stroke="currentColor"
+                                                className={`h-6 w-6 ${
+                                                    url.includes("layanan")
+                                                        ? "text-emerald-500"
+                                                        : ""
+                                                }`}
+                                                aria-label="Dashboard icon"
+                                                role="graphics-symbol"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
+                                                />
+                                            </svg>
+                                        </div>
+                                        <div
+                                            className={`flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm ${
+                                                url.includes("layanan")
+                                                    ? "text-emerald-500"
+                                                    : ""
+                                            }`}
+                                        >
+                                            Layanan
+                                        </div>
+                                    </Link>
+                                </li>
+                            ) : null}
+                            {hasPermission("Akses Menu Transaksi") ? (
+                                <li className="px-3">
+                                    <Link
+                                        href="/transaksi"
+                                        onClick={
+                                            isSideNavOpen ? handleAutoClose : ""
+                                        }
+                                        className={`flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-500 focus:bg-emerald-50 ${
+                                            url.includes("transaksi")
+                                                ? "bg-emerald-50 text-emerald-500 "
+                                                : ""
+                                        }`}
+                                        aria-current="layanan"
+                                    >
+                                        <div className="flex items-center self-center ">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                strokeWidth="1.5"
+                                                stroke="currentColor"
+                                                className={`h-6 w-6 ${
+                                                    url.includes("transaksi")
+                                                        ? "text-emerald-500"
+                                                        : ""
+                                                }`}
+                                                aria-label="Dashboard icon"
+                                                role="graphics-symbol"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"
+                                                />
+                                            </svg>
+                                        </div>
+                                        <div
+                                            className={`flex w-full flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm ${
+                                                url.includes("transaksi")
+                                                    ? "text-emerald-500"
+                                                    : ""
+                                            }`}
+                                        >
+                                            Transaksi
+                                        </div>
+                                    </Link>
+                                </li>
+                            ) : null}
                         </ul>
                     </div>
                 </nav>

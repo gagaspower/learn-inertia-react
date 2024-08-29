@@ -1,6 +1,6 @@
 import { useForm, usePage } from "@inertiajs/react";
 import React, { useEffect } from "react";
-import { Input } from "@/components/FormInput";
+import { InputDefault } from "@/components/FormInput";
 import Cards from "@/components/Card";
 import CheckboxToggle from "@/components/CheckboxToggle";
 import { SubmitButton } from "@/components/Buttons";
@@ -52,7 +52,7 @@ export default function Detail() {
                 {flash.error ? <ErrorAlert message={flash.error} /> : null}
                 <section className="w-full md:w-1/2 bg-white divide-y rounded  divide-slate-200 shadow-slate-200 p-4">
                     <form onSubmit={handleUpdate}>
-                        <Input
+                        <InputDefault
                             formLabel="Role"
                             value={data.roles}
                             readOnly={true}

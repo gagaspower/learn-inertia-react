@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 import Cards from "@/components/Card";
 import Tables from "@/components/Tables";
 
-export default function List() {
+export default function Index() {
     const { data, auth } = usePage().props;
     const hasPermission = (permission) => auth.permissions.includes(permission);
 

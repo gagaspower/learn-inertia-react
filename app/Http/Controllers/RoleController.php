@@ -18,7 +18,7 @@ class RoleController extends Controller
     {
         $role = Role::latest()->get();
 
-        return Inertia::render('Role/List', [
+        return Inertia::render('Role/Index', [
             'data' => $role
         ]);
     }

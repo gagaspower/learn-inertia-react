@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
 export function EditButton({ handleClick }) {
     return (
@@ -74,7 +74,7 @@ export function DeleteButton({ handleClick }) {
     );
 }
 
-export function AddButton({ handleClick }) {
+export function AddButton({ handleClick, label }) {
     return (
         <>
             {/*<!-- Component: Small secondary button with leading icon  --> */}
@@ -82,7 +82,7 @@ export function AddButton({ handleClick }) {
                 onClick={handleClick}
                 className="inline-flex h-8 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded bg-emerald-50 px-4 text-xs font-medium tracking-wide text-emerald-500 transition duration-300 hover:bg-emerald-100 hover:text-emerald-600 focus:bg-emerald-200 focus:text-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-100 disabled:text-emerald-400 disabled:shadow-none"
             >
-                <span className="order-2">Tambah Data</span>
+                <span className="order-2">{label || "Tambah Data"}</span>
                 <span className="relative only:-mx-4">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -269,7 +269,7 @@ export function SearchButton({ type, handleClick }) {
             <button
                 type={type}
                 onClick={handleClick}
-                className="w-full md:w-auto inline-flex h-8 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded bg-indigo-50 px-4 text-xs font-medium tracking-wide text-indigo-500 transition duration-300 hover:bg-indigo-100 hover:text-indigo-600 focus:bg-indigo-200 focus:text-indigo-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-indigo-300 disabled:bg-indigo-100 disabled:text-indigo-400 disabled:shadow-none"
+                className="w-auto inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
                 <span className="order-2">Search</span>
                 <span className="relative only:-mx-4">
@@ -283,10 +283,6 @@ export function SearchButton({ type, handleClick }) {
                         role="graphics-symbol"
                         aria-labelledby="title-26 desc-26"
                     >
-                        <title id="title-26">Icon title</title>
-                        <desc id="desc-26">
-                            A more detailed description of the icon
-                        </desc>
                         <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -298,3 +294,62 @@ export function SearchButton({ type, handleClick }) {
         </>
     );
 }
+
+export const FilterButtonWithRef = forwardRef((props, ref) => (
+    <button
+        type="button"
+        ref={ref}
+        {...props}
+        className="inline-flex h-8 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded bg-zinc-50 px-4 text-xs font-medium tracking-wide text-zinc-500 transition duration-300 hover:bg-zinc-100 hover:text-zinc-600 focus:bg-zinc-200 focus:text-zinc-700 focus-visible:outline-none"
+    >
+        <span className="order-2">filter</span>
+        <span className="relative only:-mx-4">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                role="graphics-symbol"
+                aria-labelledby="title-26 desc-26"
+            >
+                <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
+                />
+            </svg>
+        </span>
+    </button>
+));
+
+export const FilterButton = ({ type, ...props }) => {
+    return (
+        <button
+            type={type || "button"}
+            {...props}
+            className="inline-flex h-8 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded bg-zinc-50 px-4 text-xs font-medium tracking-wide text-zinc-500 transition duration-300 hover:bg-zinc-100 hover:text-zinc-600 focus:bg-zinc-200 focus:text-zinc-700 focus-visible:outline-none"
+        >
+            <span className="order-2">filter</span>
+            <span className="relative only:-mx-4">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    role="graphics-symbol"
+                    aria-labelledby="title-26 desc-26"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
+                    />
+                </svg>
+            </span>
+        </button>
+    );
+};

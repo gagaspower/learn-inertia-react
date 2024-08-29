@@ -14,9 +14,9 @@ import {
     ConfirmButton,
 } from "@/components/Buttons";
 import Modals from "@/components/Modals";
-import { Input } from "@/components/FormInput";
+
 import { ErrorAlert, SuccessAlert } from "../../components/Alert";
-import { InputSelect } from "../../components/FormInput";
+import { InputSelect, InputDefault } from "../../components/FormInput";
 
 function Home({ merks, search: initialSearch }) {
     const [search, setSearch] = useState(initialSearch || "");
@@ -185,7 +185,7 @@ function Home({ merks, search: initialSearch }) {
             >
                 <div className="flex flex-col gap-3">
                     <form onSubmit={handleSubmit}>
-                        <Input
+                        <InputDefault
                             name="nama_merk"
                             formLabel="Nama Merk"
                             value={data.nama_merk}

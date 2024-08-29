@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 
-class AuthController extends Controller
+class KendaraanCustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('Public/Auth/Login');
+        //
     }
 
     /**
@@ -28,16 +25,9 @@ class AuthController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(LoginRequest $request)
+    public function store(Request $request)
     {
-        $credentials = $request->validated();
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('dashboard');
-        }
-
-        return back()->with('error', 'Akun tidak ditemukan!');
+        //
     }
 
     /**
@@ -67,14 +57,8 @@ class AuthController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(string $id)
     {
-        Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect()->route('login');
+        //
     }
 }
