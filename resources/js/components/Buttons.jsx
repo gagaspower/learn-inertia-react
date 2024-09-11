@@ -1,4 +1,5 @@
-import React, { forwardRef } from "react";
+import React from "react";
+import { IoCloseOutline } from "react-icons/io5";
 
 export function EditButton({ handleClick }) {
     return (
@@ -79,6 +80,7 @@ export function AddButton({ handleClick, label }) {
         <>
             {/*<!-- Component: Small secondary button with leading icon  --> */}
             <button
+                type="button"
                 onClick={handleClick}
                 className="inline-flex h-8 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded bg-emerald-50 px-4 text-xs font-medium tracking-wide text-emerald-500 transition duration-300 hover:bg-emerald-100 hover:text-emerald-600 focus:bg-emerald-200 focus:text-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-100 disabled:text-emerald-400 disabled:shadow-none"
             >
@@ -102,45 +104,6 @@ export function AddButton({ handleClick, label }) {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"
-                        />
-                    </svg>
-                </span>
-            </button>
-            {/*<!-- End Small secondary button with leading icon  --> */}
-        </>
-    );
-}
-
-export function ViewDetailButton() {
-    return (
-        <>
-            {/*<!-- Component: Small secondary button with leading icon  --> */}
-            <button className="inline-flex h-8 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded bg-zinc-50 px-4 text-xs font-medium tracking-wide text-zinc-500 transition duration-300 hover:bg-zinc-100 hover:text-zinc-600 focus:bg-zinc-200 focus:text-zinc-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-zinc-300 disabled:bg-zinc-100 disabled:text-zinc-400 disabled:shadow-none">
-                <span className="order-2">Tambah Data</span>
-                <span className="relative only:-mx-4">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        role="graphics-symbol"
-                        aria-labelledby="title-26 desc-26"
-                    >
-                        <title id="title-26">Icon title</title>
-                        <desc id="desc-26">
-                            A more detailed description of the icon
-                        </desc>
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                        />
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                         />
                     </svg>
                 </span>
@@ -267,7 +230,7 @@ export function SearchButton({ type, handleClick }) {
     return (
         <>
             <button
-                type={type}
+                type={type || "button"}
                 onClick={handleClick}
                 className="w-auto inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
@@ -294,35 +257,6 @@ export function SearchButton({ type, handleClick }) {
         </>
     );
 }
-
-export const FilterButtonWithRef = forwardRef((props, ref) => (
-    <button
-        type="button"
-        ref={ref}
-        {...props}
-        className="inline-flex h-8 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded bg-zinc-50 px-4 text-xs font-medium tracking-wide text-zinc-500 transition duration-300 hover:bg-zinc-100 hover:text-zinc-600 focus:bg-zinc-200 focus:text-zinc-700 focus-visible:outline-none"
-    >
-        <span className="order-2">filter</span>
-        <span className="relative only:-mx-4">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                role="graphics-symbol"
-                aria-labelledby="title-26 desc-26"
-            >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
-                />
-            </svg>
-        </span>
-    </button>
-));
 
 export const FilterButton = ({ type, ...props }) => {
     return (
@@ -353,3 +287,91 @@ export const FilterButton = ({ type, ...props }) => {
         </button>
     );
 };
+
+export const ClearFilterButton = ({ type, ...props }) => {
+    return (
+        <button
+            type={type || "button"}
+            {...props}
+            className="inline-flex h-8 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded bg-zinc-50 px-4 text-xs font-medium tracking-wide text-zinc-500 transition duration-300 hover:bg-zinc-100 hover:text-zinc-600 focus:bg-zinc-200 focus:text-zinc-700 focus-visible:outline-none"
+        >
+            <span className="order-2">Reset Filter</span>
+            <span className="relative only:-mx-4">
+                <IoCloseOutline />
+            </span>
+        </button>
+    );
+};
+
+export function ButtonBeli({ handleClick, label, isLoading }) {
+    return (
+        <>
+            <button
+                type="button"
+                onClick={handleClick}
+                disabled={isLoading}
+                className={` inline-flex h-8 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded bg-teal-500 px-4 text-xs font-medium tracking-wide text-white transition duration-300 hover:bg-teal-100 ${
+                    isLoading
+                        ? "disabled:cursor-not-allowed disabled:bg-teal-300 disabled:hover:bg-teal-300 "
+                        : "hover:text-teal-600 "
+                }`}
+            >
+                <span className="order-2">
+                    {isLoading ? "Mohon tunggu..." : label || "Beli"}
+                </span>
+                {isLoading ? (
+                    <span className="relative only:-mx-6">
+                        <svg
+                            className="w-4 h-4 text-white animate-spin"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            role="graphics-symbol"
+                            aria-labelledby="title-15 desc-15"
+                        >
+                            <title id="title-15">Icon title</title>
+                            <desc id="desc-15">
+                                A more detailed description of the icon
+                            </desc>
+                            <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                            ></circle>
+                            <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                        </svg>
+                    </span>
+                ) : null}
+            </button>
+        </>
+    );
+}
+
+export function ButtonShowProductPasca({ formLabel, value, handleClick }) {
+    return (
+        <>
+            {formLabel ? (
+                <label
+                    htmlFor={formLabel}
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                    {formLabel}
+                </label>
+            ) : null}
+            <button
+                onClick={handleClick}
+                type="button"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-left rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+                {value || "Pilih"}
+            </button>
+        </>
+    );
+}

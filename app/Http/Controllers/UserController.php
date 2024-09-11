@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Arr;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
@@ -21,7 +26,7 @@ class UserController extends Controller
     public function index(Request $request, Role $roles)
     {
         $searchTerm = $request->input('query');
-        $searchRole = $request->input('role');
+        $searchRole = $request->input('selectedRole');
 
         $data = User::search($searchTerm)
                     ->query(function (Builder $query) use ($searchRole) {
@@ -34,18 +39,20 @@ class UserController extends Controller
                     ->latest()
                     ->paginate(10);
 
-        if ($searchTerm || $searchRole) {
+        if ($searchTerm) {
             $data->appends([
                 'query' => $searchTerm,
-                'role'  => $searchRole
             ]);
         }
+        $data->appends([
+            'selectedRole' => $searchRole
+        ]);
 
-        return Inertia::render('Pengguna/Index', [
-            'users'      => UserResource::collection($data),
-            'search'     => $searchTerm,
-            'searchRole' => $searchRole,
-            'roles'      => $roles->latest()->pluck('name'),
+        return Inertia::render('User/Index', [
+            'users'        => UserResource::collection($data),
+            'search'       => $searchTerm,
+            'selectedRole' => $searchRole,
+            'roles'        => $roles->latest()->pluck('name'),
         ]);
     }
 
@@ -54,7 +61,7 @@ class UserController extends Controller
      */
     public function create(Role $roles)
     {
-        return Inertia::render('Pengguna/Create', [
+        return Inertia::render('User/Create', [
             'roles' => $roles->latest()->pluck('name'),
         ]);
     }
@@ -89,7 +96,7 @@ class UserController extends Controller
     {
         $currentUser = User::find($id);
 
-        return Inertia::render('Pengguna/Edit', [
+        return Inertia::render('User/Edit', [
             'roles'        => $roles->latest()->pluck('name'),
             'currentData'  => $currentUser,
             'selectedRole' => $currentUser->roles->first()->name
@@ -130,5 +137,23 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('user.index')->with('success', 'Data berhasil dihapus');
+    }
+
+    public function ubah_password()
+    {
+        Log::info('Masuk ke fungsi _change_password');
+
+        return Inertia::render('User/ChangePassword');
+    }
+
+    public function update_password(UpdatePasswordRequest $request)
+    {
+        $user = User::findOrFail(Auth::user()->id);
+
+        $user->password = Hash::make($request->password);
+
+        $user->save();
+
+        return redirect()->route('profil.password')->with('success', 'Password berhasil diupdate');
     }
 }

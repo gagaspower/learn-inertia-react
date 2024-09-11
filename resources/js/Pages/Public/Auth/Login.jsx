@@ -1,6 +1,6 @@
 import React from "react";
-import Logo from "../../../../assets/img/car.png";
-import { useForm, usePage } from "@inertiajs/react";
+import Logo from "../../../../assets/img/logo.png";
+import { router, useForm, usePage } from "@inertiajs/react";
 import { SuccessAlert, ErrorAlert } from "@/components/Alert";
 
 export default function Login() {
@@ -24,7 +24,7 @@ export default function Login() {
                     className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
                 >
                     <img className="w-8 h-8 mr-2" src={Logo} alt="logo" />
-                    WinCar
+                    WinPay
                 </a>
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -46,7 +46,7 @@ export default function Login() {
                                     htmlFor="email"
                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >
-                                    Your email
+                                    Email
                                 </label>
                                 <input
                                     type="email"
@@ -105,6 +105,14 @@ export default function Login() {
                                 Sign in
                             </button>
                         </form>
+                        <button
+                            type="button"
+                            onClick={() => router.visit(route("auth.daftar"))}
+                        >
+                            <span className="italic font-light text-sm">
+                                Daftar Winpay
+                            </span>
+                        </button>
                     </div>
                 </div>
             </div>

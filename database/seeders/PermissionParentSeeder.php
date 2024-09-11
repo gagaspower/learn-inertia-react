@@ -14,12 +14,14 @@ class PermissionParentSeeder extends Seeder
     public function run(): void
     {
         $parents = [
-            'Owner',
-            'Merk Kendaraan',
-            'Customer',
             'Hak Akses',
-            'Data Kendaraan Customer',
-            'Layanan'
+            'User Manajemen',
+            'Brand Produk',
+            'Kode Nomor',
+            'Produk Prabayar',
+            'Produk Pascabayar',
+            'Laporan',
+            'Deposit'
         ];
 
         foreach ($parents as $parent) {

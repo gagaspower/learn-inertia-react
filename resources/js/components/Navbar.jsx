@@ -1,62 +1,18 @@
-import { router, usePage } from "@inertiajs/react";
-import { Avatar, Dropdown, Navbar } from "flowbite-react";
-import { Flowbite } from "flowbite-react";
-
-const customTheme = {
-    navbar: {
-        root: {
-            base: "bg-white px-2 py-2 dark:border-gray-700 dark:bg-gray-800 sm:px-4 rounded-xl",
-            inner: {
-                base: "flex justify-end items-center",
-                fluid: {
-                    on: "",
-                    off: "container",
-                },
-            },
-        },
-    },
-};
+import { usePage } from "@inertiajs/react";
+import { formatRupiah } from "../utils/const";
+import NavbarDropDown from "./NavbarDropdown";
 
 export function NavbarComponent() {
     const { auth } = usePage().props;
 
-    const handleLogout = () => {
-        router.visit(route("auth.logout"), {
-            method: "post",
-        });
-    };
     return (
-        <Flowbite theme={{ theme: customTheme }}>
-            <Navbar fluid>
-                <div className="flex md:order-2">
-                    <Dropdown
-                        arrowIcon={false}
-                        inline
-                        label={
-                            <Avatar
-                                alt="User settings"
-                                img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                                rounded
-                            />
-                        }
-                    >
-                        <Dropdown.Header>
-                            <span className="block text-sm">
-                                Hallo, {auth.user.name}
-                            </span>
-                        </Dropdown.Header>
-                        <Dropdown.Item>Ubah Password</Dropdown.Item>
-                        <Dropdown.Divider />
-                        <Dropdown.Item
-                            as="button"
-                            type="button"
-                            onClick={handleLogout}
-                        >
-                            Keluar
-                        </Dropdown.Item>
-                    </Dropdown>
-                </div>
-            </Navbar>
-        </Flowbite>
+        <header className="border-b-1 p-2 rounded-md relative z-20 w-full border-b border-slate-200 bg-white/90 shadow-lg shadow-slate-700/5 after:absolute after:left-0 after:top-full after:z-10 after:block after:h-px after:w-full after:bg-slate-200 lg:border-slate-200 lg:backdrop-blur-sm lg:after:hidden">
+            <div className="flex  justify-end md:order-2 items-center gap-5">
+                <span className="text-emerald-500">
+                    Saldo: {formatRupiah(auth?.saldo)}
+                </span>
+                <NavbarDropDown name={auth.user.name} />
+            </div>
+        </header>
     );
 }

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class AuthController extends Controller
@@ -22,7 +25,7 @@ class AuthController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Public/Auth/Registrasi');
     }
 
     /**
@@ -76,5 +79,18 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login');
+    }
+
+    public function store_register(RegisterRequest $request)
+    {
+        $user = User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        $user->assignRole('Mitra');
+
+        return redirect()->route('auth.daftar')->with('success', 'Pendaftara berhasil, silahkan login untuk melakukan transaksi');
     }
 }

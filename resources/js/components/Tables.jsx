@@ -22,12 +22,12 @@ export default function Tables({ columns, data }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.length > 0 ? (
-                            data.map((d) => {
+                        {data && data.length > 0 ? (
+                            data.map((d, index) => {
                                 return (
                                     <tr
                                         className="transition-colors duration-300 hover:bg-slate-50"
-                                        key={d.id}
+                                        key={index}
                                     >
                                         {columns.map((column) => {
                                             return (

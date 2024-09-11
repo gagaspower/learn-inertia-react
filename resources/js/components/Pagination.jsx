@@ -9,12 +9,13 @@ export default function Pagination({ pageLink, current_page, last_page }) {
                     <li>
                         <Link
                             href={pageLink.prev}
-                            aria-label="Goto Page 1"
+                            as="button"
                             className={`inline-flex h-10 items-center justify-center gap-4 stroke-slate-700 px-4 text-sm font-medium text-slate-700 transition duration-300  ${
                                 current_page === 1
                                     ? "disabled cursor-not-allowed"
                                     : "hover:bg-emerald-50 hover:stroke-emerald-500 hover:text-emerald-500  focus:bg-emerald-50 focus:stroke-emerald-600 focus:text-emerald-600 focus-visible:outline-none"
                             }`}
+                            disabled={current_page === 1 ? true : false}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -41,12 +42,13 @@ export default function Pagination({ pageLink, current_page, last_page }) {
                     <li>
                         <Link
                             href={pageLink.next}
-                            aria-label="Goto Page 3"
+                            as="button"
                             className={`inline-flex h-10 items-center justify-center gap-4 stroke-slate-700 px-4 text-sm font-medium text-slate-700 transition duration-300   ${
                                 current_page === last_page
                                     ? "disabled cursor-not-allowed"
                                     : "hover:bg-emerald-50 hover:stroke-emerald-500 hover:text-emerald-500  focus:bg-emerald-50 focus:stroke-emerald-600 focus:text-emerald-600 focus-visible:outline-none"
                             }`}
+                            disabled={current_page === last_page ? true : false}
                         >
                             <span>Next </span>
                             <svg

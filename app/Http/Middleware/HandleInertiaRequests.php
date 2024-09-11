@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\GetSaldoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
@@ -36,10 +37,13 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $saldo = new GetSaldoService();
+
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => Auth::user(),
+                'user'        => Auth::user(),
                 'permissions' => Auth::check() ? Auth::user()->getAllPermissions()->pluck('name') : [],
+                'saldo'       => $saldo->_get_saldo()
             ],
             'flash' => [
                 'success' => $request->session()->get('success'),
