@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BrandController;
+// use App\Http\Controllers\BrandController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\DigiflazController;
 use App\Http\Controllers\NumberCodeController;
@@ -35,14 +35,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/role/{id}', 'update')->name('role.update');
     });
 
-    Route::controller(BrandController::class)->group(function () {
-        Route::get('brand', 'index')->name('brand.index');
-        Route::get('brand/add', 'create')->name('brand.create');
-        Route::post('brand/store', 'store')->name('brand.store');
-        Route::get('brand/edit/{id}', 'edit')->name('brand.edit');
-        Route::post('brand/update/{id}', 'update')->name('brand.update');
-        Route::delete('brand/delete/{id}', 'destroy')->name('brand.delete');
-    });
+    // Route::controller(BrandController::class)->group(function () {
+    //     Route::get('brand', 'index')->name('brand.index');
+    //     Route::get('brand/add', 'create')->name('brand.create');
+    //     Route::post('brand/store', 'store')->name('brand.store');
+    //     Route::get('brand/edit/{id}', 'edit')->name('brand.edit');
+    //     Route::post('brand/update/{id}', 'update')->name('brand.update');
+    //     Route::delete('brand/delete/{id}', 'destroy')->name('brand.delete');
+    // });
 
     Route::controller(NumberCodeController::class)->group(function () {
         Route::get('kode-nomor', 'index')->name('kode_nomor.index');

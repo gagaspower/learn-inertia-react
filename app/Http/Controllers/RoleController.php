@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permission;
 use App\Models\PermissionParent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -44,7 +44,7 @@ class RoleController extends Controller
         $selectedRole       = Role::find($id);
         $selectedPermission = DB::table('role_has_permissions')->where('role_id', $id)->get();
 
-        $permissions = PermissionParent::with('permissions')->get();
+        $permissions = Permission::all();
 
         // Kirim data ke view
         return Inertia::render('Role/Detail', [

@@ -46,7 +46,7 @@ class BrandController extends Controller
         if ($request->file('brand_logo')) {
             $imageName = time() . '.' . $request->brand_logo->extension();
             // $request->file('brand_logo')->storeAs('brand', $imageName, 'public');
-            $request->brand_logo->move(public_path('brands'), $imageName);
+            $request->brand_logo->move('brands', $imageName);
             $validated['brand_logo'] = $imageName;
         }
 

@@ -179,7 +179,7 @@ export default function Sidebar() {
                                 </li>
                             ) : null}
 
-                            {hasPermission("Brand Produk") ? (
+                            {/* {hasPermission("Brand Produk") ? (
                                 <li className="px-3">
                                     <Link
                                         href="/brand"
@@ -213,7 +213,7 @@ export default function Sidebar() {
                                         </div>
                                     </Link>
                                 </li>
-                            ) : null}
+                            ) : null} */}
 
                             {hasPermission("Kode Nomor") ? (
                                 <li className="px-3">
