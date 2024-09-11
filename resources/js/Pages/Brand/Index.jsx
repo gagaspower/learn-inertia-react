@@ -29,7 +29,7 @@ export default function Index() {
                 key: "brand_logo",
                 label: "Logo",
                 formatter: (row) => {
-                    const imgLogo = `/brand/${row.brand_logo}`;
+                    const imgLogo = `/brands/${row.brand_logo}`;
                     return (
                         <img
                             src={imgLogo}

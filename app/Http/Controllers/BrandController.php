@@ -46,7 +46,7 @@ class BrandController extends Controller
         if ($request->file('brand_logo')) {
             $imageName = time() . '.' . $request->brand_logo->extension();
             // $request->file('brand_logo')->storeAs('brand', $imageName, 'public');
-            $request->brand_logo->move(public_path('brand'), $imageName);
+            $request->brand_logo->move(public_path('brands'), $imageName);
             $validated['brand_logo'] = $imageName;
         }
 
@@ -97,11 +97,11 @@ class BrandController extends Controller
             // if ($oldLogo && file_exists(public_path('storage/brand/' . $oldLogo))) {
             //     unlink(public_path('storage/brand/' . $oldLogo));
             // }
-            if ($oldLogo && file_exists(public_path('brand/' . $oldLogo))) {
-                unlink(public_path('brand/' . $oldLogo));
+            if ($oldLogo && file_exists(public_path('brands' . $oldLogo))) {
+                unlink(public_path('brands' . $oldLogo));
             }
 
-            $request->brand_logo->move(public_path('brand'), $imageName);
+            $request->brand_logo->move(public_path('brands'), $imageName);
         } else {
             $validated = $request->except('brand_logo');
         }
@@ -124,8 +124,8 @@ class BrandController extends Controller
             // if ($oldLogo && file_exists(public_path('storage/brand/' . $oldLogo))) {
             //     unlink(public_path('storage/brand/' . $oldLogo));
             // }
-            if ($oldLogo && file_exists(public_path('brand/' . $oldLogo))) {
-                unlink(public_path('brand/' . $oldLogo));
+            if ($oldLogo && file_exists(public_path('brands' . $oldLogo))) {
+                unlink(public_path('brands' . $oldLogo));
             }
         }
         $brand->delete();
