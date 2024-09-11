@@ -45,7 +45,8 @@ class BrandController extends Controller
 
         if ($request->file('brand_logo')) {
             $imageName = time() . '.' . $request->brand_logo->extension();
-            $request->file('brand_logo')->storeAs('brand', $imageName, 'public');
+            // $request->file('brand_logo')->storeAs('brand', $imageName, 'public');
+            $request->brand_logo->move(public_path('brand'), $imageName);
             $validated['brand_logo'] = $imageName;
         }
 
@@ -91,11 +92,16 @@ class BrandController extends Controller
         if ($request->hasFile('brand_logo')) {
             $oldLogo   = $brand->brand_logo;
             $imageName = time() . '.' . $request->brand_logo->extension();
-            $request->file('brand_logo')->storeAs('brand', $imageName, 'public');
+            // $request->file('brand_logo')->storeAs('brand', $imageName, 'public');
             $validated['brand_logo'] = $imageName;
-            if ($oldLogo && file_exists(public_path('storage/brand/' . $oldLogo))) {
-                unlink(public_path('storage/brand/' . $oldLogo));
+            // if ($oldLogo && file_exists(public_path('storage/brand/' . $oldLogo))) {
+            //     unlink(public_path('storage/brand/' . $oldLogo));
+            // }
+            if ($oldLogo && file_exists(public_path('brand/' . $oldLogo))) {
+                unlink(public_path('brand/' . $oldLogo));
             }
+
+            $request->brand_logo->move(public_path('brand'), $imageName);
         } else {
             $validated = $request->except('brand_logo');
         }
@@ -115,8 +121,11 @@ class BrandController extends Controller
         $brand   = Brand::findOrFail($id);
         $oldLogo = $brand->brand_logo;
         if ($oldLogo) {
-            if ($oldLogo && file_exists(public_path('storage/brand/' . $oldLogo))) {
-                unlink(public_path('storage/brand/' . $oldLogo));
+            // if ($oldLogo && file_exists(public_path('storage/brand/' . $oldLogo))) {
+            //     unlink(public_path('storage/brand/' . $oldLogo));
+            // }
+            if ($oldLogo && file_exists(public_path('brand/' . $oldLogo))) {
+                unlink(public_path('brand/' . $oldLogo));
             }
         }
         $brand->delete();
