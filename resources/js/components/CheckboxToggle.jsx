@@ -16,7 +16,7 @@ export default function CheckboxToggle({
                     value={value}
                     id={name}
                     onChange={() => handleChange(value)}
-                    checked={checked}
+                    checked={!!checked}
                 />
                 <label
                     className="cursor-pointer pl-2 text-slate-500 peer-disabled:cursor-not-allowed peer-disabled:text-slate-400"
